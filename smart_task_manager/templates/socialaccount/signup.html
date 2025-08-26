@@ -1,0 +1,36 @@
+<h1 style="color:red;">CUSTOM TEMPLATE LOADED ✅</h1>
+{% extends "tasks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg bg-dark text-light">
+      <div class="card-header text-center">
+        <h3 class="mb-0">Complete Your Signup</h3>
+      </div>
+      <div class="card-body">
+        <p class="text-center">
+          Welcome <strong>{{ account.get_provider.name }}</strong> user! 🎉  
+          Please confirm your details below to finish creating your account.
+        </p>
+
+        <form method="post" class="mt-3">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-person-check"></i> Confirm & Signup
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'login' %}" class="btn btn-outline-light w-100">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

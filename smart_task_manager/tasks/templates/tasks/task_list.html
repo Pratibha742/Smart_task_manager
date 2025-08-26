@@ -1,0 +1,42 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+{% if urgent_tasks %}
+  <div class="alert alert-danger">
+    ⚠️ Reminder: You have {{ urgent_tasks.count }} task(s) due soon!
+  </div>
+{% endif %}
+
+<h2 class="mb-3">Your Tasks</h2>
+<a href="{% url 'task_create' %}" class="btn btn-primary mb-3">➕ Create New Task</a>
+
+<table class="table table-dark table-striped table-hover">
+  <thead class="table-secondary text-dark">
+    <tr>
+      <th>Title</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Due</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr>
+      <td>{{ task.title }}</td>
+      <td>
+        {% if task.priority == "High" %}
+          <span class="badge bg-danger">{{ task.priority }}</span>
+        {% elif task.priority == "Medium" %}
+          <span class="badge bg-warning text-dark">{{ task.priority }}</span>
+        {% else %}
+          <span class="badge bg-success">{{ task.priority }}</span>
+        {% endif %}
+      </td>
+      <td>{{ task.status }}</td>
+      <td>{{ task.due_date }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="text-center">No tasks yet</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
