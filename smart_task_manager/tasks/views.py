@@ -8,13 +8,23 @@ from .forms import TaskForm
 from datetime import date, timedelta
 from django.db.models import Q
 from .utils import ai_suggest_priority
+from django.utils.timezone import localdate
+from django.http import JsonResponse
+from django.core.management import call_command
+from django.conf import settings
 
 @login_required
 def task_list(request):
-    tasks = Task.objects.filter(assigned_to=request.user)
+    today = localdate()
+    soon = today + timedelta(days=2)
+    tasks =(Task.objects.filter(assigned_to=request.user).select_related('assigned_to'))
+
     urgent_tasks = tasks.filter(
-        Q(due_date__lte=date.today() + timedelta(days=2)) | Q(priority="High")
-    )
+    status__in=['pending', 'in progress'],
+    due_date__lte=date.today() + timedelta(days=2)
+).filter(
+    Q(priority="High") | Q(due_date__lte=date.today() + timedelta(days=2))
+)
     return render(request, 'tasks/task_list.html', {'tasks': tasks,'urgent_tasks':urgent_tasks})
 
 @login_required
@@ -50,3 +60,13 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'tasks/sign_up.html', {'form': form})
+
+
+
+
+def trigger_notifications(request,token):
+    if token != settings.CRON_SECRET:
+        return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
+
+    call_command = ("send_task_notifications")
+    return JsonResponse({"status": "success" ,"message":"notifications triggered"})

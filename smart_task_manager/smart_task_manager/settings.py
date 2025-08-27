@@ -196,5 +196,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+CRON_SECRET = os.getenv("CRON_SECRET", "changeme")
+
 
 
