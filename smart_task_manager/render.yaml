@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: smart-task-manager
+    env: python
+    plan: free   # change if needed (starter/professional etc.)
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn Smart_task_manager.wsgi --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Smart_task_manager.settings
+      - key: PYTHON_VERSION
+        value: 3.13.4
