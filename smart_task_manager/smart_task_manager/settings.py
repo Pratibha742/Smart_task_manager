@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-zr&rbleomoa=9fit#0o)psd8@i+^x%z=7)_9v$*(-+sm6-yvbv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["smart-task-manager-n815.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -93,15 +93,12 @@ WSGI_APPLICATION = 'smart_task_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQL_DATABASE", "smart_task_manager"),
-        'USER': os.getenv("MYSQL_USER", "root"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD", ""),
-        'HOST': os.getenv("MYSQL_HOST", "localhost"),
-        'PORT': os.getenv("MYSQL_PORT", "3306"),
-    }
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600
+    )
 }
 
 

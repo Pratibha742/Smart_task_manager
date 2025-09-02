@@ -9,5 +9,7 @@ services:
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: smart_task_manager.settings
+        key: DATABASE_URL
+        value: mysql://root:root@db:3306/smart_task_manager
       - key: PYTHON_VERSION
         value: 3.11.9
