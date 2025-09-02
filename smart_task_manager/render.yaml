@@ -4,10 +4,10 @@ services:
     env: python
     plan: free   # change if needed (starter/professional etc.)
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn Smart_task_manager.wsgi --bind 0.0.0.0:$PORT"
+    startCommand: "gunicorn smart_task_manager.wsgi --bind 0.0.0.0:$PORT"
     rootDir: .
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: Smart_task_manager.settings
+        value: smart_task_manager.settings
       - key: PYTHON_VERSION
-        value: 3.13.4
+        value: 3.11.9
