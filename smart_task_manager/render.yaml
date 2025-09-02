@@ -13,3 +13,4 @@ services:
         value: mysql://root:root@db:3306/smart_task_manager
       - key: PYTHON_VERSION
         value: 3.11.9
+        postDeployCommand: python manage.py migrate
