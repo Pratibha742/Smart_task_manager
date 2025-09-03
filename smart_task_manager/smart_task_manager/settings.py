@@ -27,11 +27,9 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-zr&rbleomoa=9fit#0o)psd8@i+^x%z=7)_9v$*(-+sm6-yvbv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [ "localhost",
-    "127.0.0.1",
-    "smart-task-manager-m1js.onrender.com"]
+ALLOWED_HOSTS = [ "*"]
 
 
 # Application definition

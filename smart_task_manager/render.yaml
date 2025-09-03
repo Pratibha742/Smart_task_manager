@@ -3,14 +3,23 @@ services:
     name: smart-task-manager
     env: python
     plan: free   # starter/professional agar chahiye to badal lena
-    buildCommand: "pip install -r ./requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
-    startCommand: "gunicorn smart_task_manager.wsgi:application --bind 0.0.0.0:$PORT"
     rootDir: .
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn smart_task_manager.wsgi:application --bind 0.0.0.0:$PORT"
+    postDeployCommand: "python manage.py migrate --noinput"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: smart_task_manager.settings
-        key: DATABASE_URL
-        value: mysql://root:root@db:3306/smart_task_manager
       - key: PYTHON_VERSION
         value: 3.11.9
-        postDeployCommand: python manage.py migrate
+      - key: MYSQL_DATABASE
+        value: smart_task_manager
+      - key: MYSQL_USER
+        value: root
+      - key: MYSQL_PASSWORD
+        value: root
+      - key: MYSQL_HOST
+        value: db
+      - key: MYSQL_PORT
+        value: 3306
+
