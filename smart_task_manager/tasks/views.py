@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 from .models import Task
@@ -12,6 +12,12 @@ from django.utils.timezone import localdate
 from django.http import JsonResponse
 from django.core.management import call_command
 from django.conf import settings
+
+
+def welcome(request):
+    if request.user.is_authenticated:
+        return redirect('task_list')
+    return render(request, 'tasks/welcome.html')
 
 @login_required
 def task_list(request):
@@ -48,15 +54,23 @@ def task_create(request):
         form = TaskForm()
     return render(request, 'tasks/task_form.html', {'form': form})
 
+
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # naya user save karega
-            user.email = form.cleaned_data["email"]
-            user.save()
-            login(request, user)  # auto login ke baad
-            return redirect('task_list')
+            user = form.save()
+
+            # ✅ user ko authenticate karo taaki backend set ho jaye
+            authenticated_user = authenticate(
+                request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password1"]
+            )
+
+            if authenticated_user is not None:
+                login(request, authenticated_user)  # backend ab set hoga
+                return redirect('login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'tasks/sign_up.html', {'form': form})

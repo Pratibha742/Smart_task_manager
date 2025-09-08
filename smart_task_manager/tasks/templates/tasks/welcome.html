@@ -1,0 +1,15 @@
+{% extends "tasks/base.html" %}
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+  <h1 class="display-4 fw-bold text-light">✨ Welcome to SmartTask AI ✨</h1>
+  <p class="lead text-warning mt-3">
+    "Your tasks, our AI — Priorities set smartly, so you stay stress-free."
+  </p>
+  {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}" class="btn btn-success btn-lg mt-4">Get Started</a>
+    {% comment %} <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg mt-4">Login</a> {% endcomment %}
+  {% else %}
+    <a href="{% url 'task_list' %}" class="btn btn-primary btn-lg mt-4">Go to My Tasks</a>
+  {% endif %}
+</div>
+{% endblock %}
