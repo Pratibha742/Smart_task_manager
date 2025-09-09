@@ -78,9 +78,19 @@ def signup(request):
 
 
 
-def trigger_notifications(request,token):
+# def trigger_notifications(request,token):
+#     if token != settings.CRON_SECRET:
+#         return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
+
+#     call_command = ("send_task_reminders")
+#     return JsonResponse({"status": "success" ,"message":"notifications triggered"})
+
+def trigger_notifications(request, token):
     if token != settings.CRON_SECRET:
         return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
 
-    call_command = ("send_task_reminders")
-    return JsonResponse({"status": "success" ,"message":"notifications triggered"})
+    try:
+        call_command("send_task_reminder")   # ye tumhari management command ko run karega
+        return JsonResponse({"status": "success", "message": "notifications triggered"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
