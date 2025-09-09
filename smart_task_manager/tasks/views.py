@@ -90,7 +90,7 @@ def trigger_notifications(request, token):
         return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
 
     try:
-        call_command("send_task_reminders")   # ye tumhari management command ko run karega
+        call_command("send_task_reminder")   # ye tumhari management command ko run karega
         return JsonResponse({"status": "success", "message": "notifications triggered"})
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
