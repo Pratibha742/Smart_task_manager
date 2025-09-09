@@ -82,5 +82,5 @@ def trigger_notifications(request,token):
     if token != settings.CRON_SECRET:
         return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
 
-    call_command = ("send_task_notifications")
+    call_command = ("send_task_reminders")
     return JsonResponse({"status": "success" ,"message":"notifications triggered"})
