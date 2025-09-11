@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Task(models.Model):
     PRIORITY_CHOICES = [('Low','Low'),('Medium','Medium'),('High','High')]
-    STATUS_CHOICES = [('Pending','Pending'),('In Progress','In Progress'),('Completed','Completed')]
+    STATUS_CHOICES = [('Pending','Pending'),('In Progress','In Progress'),('On hold','On hold')]
 
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
